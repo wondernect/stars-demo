@@ -1,6 +1,7 @@
 package com.wondernect.demo.stars.demo.model;
 
-import com.wondernect.elements.rdb.base.model.BaseStringModel;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wondernect.elements.rdb.base.model.BaseRDBModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -8,8 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Copyright (C), 2017-2018, 西安电视广播大学
@@ -25,7 +25,13 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "学生班级")
-public class StudentKlass extends BaseStringModel {
+public class StudentKlass extends BaseRDBModel {
+
+    @Id
+    @Column(columnDefinition = "varchar(255) not null")
+    @JsonProperty("id")
+    @ApiModelProperty(value = "唯一id")
+    private String id;
 
     @ApiModelProperty(value = "学生id")
     private String studentId;

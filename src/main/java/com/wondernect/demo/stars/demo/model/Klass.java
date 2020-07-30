@@ -1,6 +1,6 @@
 package com.wondernect.demo.stars.demo.model;
 
-import com.wondernect.elements.rdb.base.model.BaseStringModel;
+import com.wondernect.elements.rdb.base.model.BaseLongModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "班级")
-public class Klass extends BaseStringModel {
+public class Klass extends BaseLongModel {
 
     @ApiModelProperty(value = "名称")
     private String name;

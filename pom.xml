@@ -63,6 +63,12 @@
             <artifactId>i18n</artifactId>
         </dependency>
 
+        <!-- elements easyoffice -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>easyoffice</artifactId>
+        </dependency>
+
         <!-- elements swagger-api -->
         <dependency>
             <groupId>com.wondernect.elements</groupId>
@@ -108,4 +114,17 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>wondernect-public</id>
+            <name>wondernect nexus public repository</name>
+            <url>http://119.23.9.49:8112/repository/wondernect-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
