@@ -26,35 +26,23 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- stars user-rest -->
-        <dependency>
-            <groupId>com.wondernect.stars</groupId>
-            <artifactId>user</artifactId>
-        </dependency>
-
-        <!-- stars session-rest -->
-        <dependency>
-            <groupId>com.wondernect.stars</groupId>
-            <artifactId>session</artifactId>
-        </dependency>
-
-        <!-- stars rbac-rest -->
-        <dependency>
-            <groupId>com.wondernect.stars</groupId>
-            <artifactId>rbac</artifactId>
-        </dependency>
-
-        <!-- stars file-rest -->
-        <dependency>
-            <groupId>com.wondernect.stars</groupId>
-            <artifactId>file</artifactId>
-        </dependency>
-
         <!-- mysql connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.11</version>
+        </dependency>
+
+        <!-- elements boot-application -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>boot-application</artifactId>
+        </dependency>
+
+        <!-- elements rdb -->
+        <dependency>
+            <groupId>com.wondernect.elements</groupId>
+            <artifactId>rdb</artifactId>
         </dependency>
 
         <!-- elements i18n -->

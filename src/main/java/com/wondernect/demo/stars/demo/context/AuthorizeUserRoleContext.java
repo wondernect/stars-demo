@@ -13,5 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthorizeUserRoleContext extends AbstractWondernectAuthorizeContext {
 
-
+    @Override
+    public boolean authorizeAppSecret(String appId, String encryptSecret) {
+        return true;
+    }
 }
