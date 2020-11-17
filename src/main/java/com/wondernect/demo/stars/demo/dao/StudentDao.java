@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * 学生数据库操作类
  *
- * @author chenxun 2020-09-25 12:13:13
+ * @author chenxun 2020-11-17 13:43:27
  **/
 @Repository
 public class StudentDao extends BaseStringDao<Student> {

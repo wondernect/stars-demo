@@ -5,7 +5,6 @@ import com.wondernect.demo.stars.demo.dto.PageStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.SaveStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.StudentResponseDTO;
 import com.wondernect.demo.stars.demo.service.StudentService;
-import com.wondernect.elements.authorize.context.interceptor.AuthorizeServer;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.easyoffice.excel.ESExcelItem;
@@ -16,6 +15,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,9 +26,9 @@ import java.util.List;
 /**
  * 学生接口
  *
- * @author chenxun 2020-09-25 12:13:14
+ * @author chenxun 2020-11-17 13:43:31
  **/
-@RequestMapping(value = "/v1/student/student")
+@RequestMapping(value = "/v1/star_demo/student")
 @RestController
 @Validated
 @Api(tags = "学生接口")
@@ -63,7 +63,6 @@ public class StudentController {
         return new BusinessData(BusinessError.SUCCESS);
     }
 
-    @AuthorizeServer
     @ApiOperation(value = "获取详细信息", httpMethod = "GET")
     @GetMapping(value = "/{id}/detail")
     public BusinessData<StudentResponseDTO> detail(
@@ -72,7 +71,6 @@ public class StudentController {
         return new BusinessData<>(studentService.findById(id));
     }
 
-    @AuthorizeServer
     @ApiOperation(value = "列表", httpMethod = "POST")
     @PostMapping(value = "/list")
     public BusinessData<List<StudentResponseDTO>> list(
@@ -81,7 +79,6 @@ public class StudentController {
         return new BusinessData<>(studentService.list(listStudentRequestDTO));
     }
 
-    @AuthorizeServer
     @ApiOperation(value = "分页", httpMethod = "POST")
     @PostMapping(value = "/page")
     public BusinessData<PageResponseData<StudentResponseDTO>> page(
@@ -99,11 +96,36 @@ public class StudentController {
     @ApiOperation(value = "excel导出", httpMethod = "POST")
     @PostMapping(value = "/excel_data_export")
     public void excelDataExport(
-            @ApiParam(required = true) @NotBlank(message = "excel导出服务id不能为空") @RequestParam(value = "export_service_identifier", required = false) String exportServiceIdentifier,
+            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
             @ApiParam(required = true) @NotNull(message = "列表请求参数不能为空") @Validated @RequestBody(required = false) ListStudentRequestDTO listStudentRequestDTO,
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        studentService.excelDataExport(exportServiceIdentifier, listStudentRequestDTO, request, response);
+        studentService.excelDataExport(templateId, listStudentRequestDTO, request, response);
+    }
+
+    @ApiOperation(value = "excel导入", httpMethod = "POST")
+    @PostMapping(value = "/excel_data_import")
+    public void excelDataImport(
+            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
+            @ApiParam(required = true) @NotNull(message = "文件不能为空") @Validated @RequestPart(value = "file", required = false) MultipartFile file,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        try {
+            studentService.excelDataImport(templateId, file.getInputStream(), request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ApiOperation(value = "excel导入信息模板下载", httpMethod = "GET")
+    @GetMapping(value = "/excel_data_import_model")
+    public void excelDataImportModel(
+            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        studentService.excelDataImportModel(templateId, request, response);
     }
 }

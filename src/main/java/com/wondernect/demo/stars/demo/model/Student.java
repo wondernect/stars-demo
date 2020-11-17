@@ -29,5 +29,11 @@ public class Student extends BaseStringModel {
 
     @ApiModelProperty(value = "姓名")
     private String name;
+
+    @ApiModelProperty(value = "性别")
+    private Integer sex;
+
+    @ApiModelProperty(value = "年龄")
+    private Integer age;
 }
 

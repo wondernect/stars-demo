@@ -4,17 +4,14 @@ import com.wondernect.demo.stars.demo.dto.ListStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.PageStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.SaveStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.StudentResponseDTO;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.rdb.response.PageResponseData;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
  * 学生服务接口类
  *
- * @author chenxun 2020-09-25 12:13:14
+ * @author chenxun 2020-11-17 13:43:29
  **/
 public interface StudentInterface {
 
@@ -47,14 +44,4 @@ public interface StudentInterface {
      * 分页
      **/
     PageResponseData<StudentResponseDTO> page(PageStudentRequestDTO pageStudentRequestDTO);
-
-    /**
-     * 获取excel的所有可用列名、类型、描述、get方法、set方法
-     **/
-    List<ESExcelItem> excelItemList();
-
-    /**
-     * excel导出
-     **/
-    void excelDataExport(String exportServiceIdentifier, ListStudentRequestDTO listStudentRequestDTO, HttpServletRequest request, HttpServletResponse response);
 }

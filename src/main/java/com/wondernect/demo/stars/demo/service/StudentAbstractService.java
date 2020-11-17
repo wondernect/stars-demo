@@ -8,28 +8,18 @@ import com.wondernect.demo.stars.demo.model.Student;
 import com.wondernect.elements.common.exception.BusinessException;
 import com.wondernect.elements.common.utils.ESBeanUtils;
 import com.wondernect.elements.common.utils.ESObjectUtils;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
-import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
-import com.wondernect.elements.easyoffice.excel.ESExcelUtils;
 import com.wondernect.elements.rdb.base.service.BaseStringService;
 import com.wondernect.elements.rdb.criteria.Criteria;
-import com.wondernect.elements.rdb.criteria.Restrictions;
 import com.wondernect.elements.rdb.response.PageResponseData;
-import org.apache.commons.collections4.CollectionUtils;
-import org.hibernate.criterion.MatchMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 学生服务抽象实现类
  *
- * @author chenxun 2020-09-25 12:13:14
+ * @author chenxun 2020-11-17 13:43:30
  **/
 @Service
 public abstract class StudentAbstractService extends BaseStringService<StudentResponseDTO, Student> implements StudentInterface {
@@ -58,41 +48,30 @@ public abstract class StudentAbstractService extends BaseStringService<StudentRe
     @Override
     public List<StudentResponseDTO> list(ListStudentRequestDTO listStudentRequestDTO) {
         Criteria<Student> studentCriteria = new Criteria<>();
-        studentCriteria.add(Restrictions.like("name", listStudentRequestDTO.getName(), MatchMode.ANYWHERE));
+//TODO:添加列表筛选条件
+
         return super.findAll(studentCriteria, listStudentRequestDTO.getSortDataList());
     }
 
     @Override
     public PageResponseData<StudentResponseDTO> page(PageStudentRequestDTO pageStudentRequestDTO) {
         Criteria<Student> studentCriteria = new Criteria<>();
-        studentCriteria.add(Restrictions.like("name", pageStudentRequestDTO.getName(), MatchMode.ANYWHERE));
+//TODO:添加分页筛选条件
+
         return super.findAll(studentCriteria, pageStudentRequestDTO.getPageRequestData());
-    }
-
-    @Override
-    public List<ESExcelItem> excelItemList() {
-        return super.excelItemList(StudentResponseDTO.class);
-    }
-
-    @Override
-    public void excelDataExport(String exportServiceIdentifier, ListStudentRequestDTO listStudentRequestDTO, HttpServletRequest request, HttpServletResponse response) {
-        super.excelDataExport(exportServiceIdentifier, excelItemList(), list(listStudentRequestDTO), "学生信息导出", "学生信息导出", "学生信息导出", request, response);
     }
 
     @Override
     public StudentResponseDTO generate(Student student) {
         StudentResponseDTO studentResponseDTO = new StudentResponseDTO();
         ESBeanUtils.copyProperties(student, studentResponseDTO);
-        studentResponseDTO.setId(student.getId());
         return studentResponseDTO;
     }
 
     @Override
-    public List<ESExcelItemHandler> generateExcelExportItemHandlerList(String exportServiceIdentifier) {
-        switch (exportServiceIdentifier) {
-            default: {
-                return new ArrayList<>();
-            }
-        }
+    public Student generate(StudentResponseDTO studentResponseDTO) {
+        Student student = new Student();
+        ESBeanUtils.copyWithoutNullAndIgnoreProperties(studentResponseDTO, student);
+        return student;
     }
 }

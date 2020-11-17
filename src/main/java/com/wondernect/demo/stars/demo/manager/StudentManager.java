@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 /**
  * 学生服务操作类
  *
- * @author chenxun 2020-09-25 12:13:13
+ * @author chenxun 2020-11-17 13:43:28
  **/
 @Service
 public class StudentManager extends BaseStringManager<Student> {

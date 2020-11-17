@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 /**
  * 学生请求DTO
  *
- * @author chenxun 2020-09-25 12:13:13
+ * @author chenxun 2020-11-17 13:43:28
  **/
 @Data
 @NoArgsConstructor
@@ -26,4 +26,12 @@ public class SaveStudentRequestDTO {
     @JsonProperty("name")
     @ApiModelProperty(notes = "姓名")
     private String name;
+
+    @JsonProperty("sex")
+    @ApiModelProperty(notes = "性别")
+    private Integer sex;
+
+    @JsonProperty("age")
+    @ApiModelProperty(notes = "年龄")
+    private Integer age;
 }
