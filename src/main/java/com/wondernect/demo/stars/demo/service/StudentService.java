@@ -3,18 +3,14 @@ package com.wondernect.demo.stars.demo.service;
 import com.wondernect.demo.stars.demo.dto.ListStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.StudentResponseDTO;
 import com.wondernect.demo.stars.demo.excel.*;
-import com.wondernect.elements.easyoffice.excel.ESExcelImportDataHandler;
-import com.wondernect.elements.easyoffice.excel.ESExcelImportVerifyHandler;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
-import com.wondernect.elements.easyoffice.excel.ESExcelItemHandler;
+import com.wondernect.elements.easyoffice.excel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 学生服务
@@ -24,8 +20,14 @@ import java.util.List;
 @Service
 public class StudentService extends StudentAbstractService {
 
+    @Autowired
+    private StudentImportDataHandler studentImportDataHandler;
+
+    @Autowired
+    private StudentImportVerifyHandler studentImportVerifyHandler;
+
     public List<ESExcelItem> excelItemList() {
-        return super.excelItemList(StudentResponseDTO.class);
+        return ESExcelUtils.getAllEntityExcelItem(StudentResponseDTO.class);
     }
 
     public void excelDataExport(String templateId, ListStudentRequestDTO listStudentRequestDTO, HttpServletRequest request, HttpServletResponse response) {
@@ -33,7 +35,7 @@ public class StudentService extends StudentAbstractService {
     }
 
     public void excelDataImport(String templateId, InputStream fileInputStream, HttpServletRequest request, HttpServletResponse response) {
-        super.excelDataImport(templateId, StudentResponseDTO.class, 1, 1, fileInputStream, "学生信息导入错误信息", request, response);
+        super.excelDataImport(templateId, StudentResponseDTO.class, studentImportDataHandler, studentImportVerifyHandler, 1, 1, fileInputStream, "学生信息导入错误信息", request, response);
     }
 
     public void excelDataImportModel(String templateId, HttpServletRequest request, HttpServletResponse response) {
@@ -42,24 +44,42 @@ public class StudentService extends StudentAbstractService {
 
     @Override
     public List<ESExcelItemHandler> generateExcelItemHandlerList(String templateId) {
-        switch (templateId) {
-            default: {
-                return Arrays.asList(
-                        new StudentResponseDTONameHandler(2),
-                        new StudentResponseDTOSexHandler(3),
-                        new StudentResponseDTOAgeHandler(1)
-                );
-            }
-        }
+        List<ESExcelItemHandler> excelItemHandlerList = new ArrayList<>();
+
+        excelItemHandlerList.add(
+                new ESExcelStringItemHandler("id", "学生id", 4)
+        );
+
+        excelItemHandlerList.add(
+                new ESExcelStringItemHandler("name", "姓名", 2)
+        );
+
+        Map<Integer, String> dictionary = new HashMap<>();
+        dictionary.put(1, "男");
+        dictionary.put(2, "女");
+        excelItemHandlerList.add(
+                new StudentResponseDTOSexHandler(
+                        "sex",
+                        "性别",
+                        1,
+                        dictionary
+                )
+        );
+
+        excelItemHandlerList.add(
+                new ESExcelIntegerItemHandler("age", "年龄", 3)
+        );
+
+        // excelItemHandlerList.add(
+        //         new ESExcelTimestampItemHandler("createTime", "创建时间", 0)
+        // );
+
+        return excelItemHandlerList;
     }
 
     @Override
-    public ESExcelImportDataHandler generateExcelImportDataHandler(String templateId) {
-        return new StudentImportDataHandler();
-    }
-
-    @Override
-    public ESExcelImportVerifyHandler generateExcelImportVerifyHandler(String templateId) {
-        return new StudentImportVerifyHandler();
+    public void saveExcelEntityData(Map<String, Object> map, List<ESExcelItem> excelItemList) {
+        StudentResponseDTO studentResponseDTO = ESExcelUtils.getImportObject(StudentResponseDTO.class, map, excelItemList);
+        System.out.println(studentResponseDTO);
     }
 }

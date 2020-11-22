@@ -67,11 +67,4 @@ public abstract class StudentAbstractService extends BaseStringService<StudentRe
         ESBeanUtils.copyProperties(student, studentResponseDTO);
         return studentResponseDTO;
     }
-
-    @Override
-    public Student generate(StudentResponseDTO studentResponseDTO) {
-        Student student = new Student();
-        ESBeanUtils.copyWithoutNullAndIgnoreProperties(studentResponseDTO, student);
-        return student;
-    }
 }

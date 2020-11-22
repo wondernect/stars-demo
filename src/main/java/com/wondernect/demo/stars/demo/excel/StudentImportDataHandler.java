@@ -1,6 +1,7 @@
 package com.wondernect.demo.stars.demo.excel;
 
 import com.wondernect.elements.easyoffice.excel.ESExcelImportDataHandler;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
  * Date: 2020-11-12 15:15
  * Description: 用户导入handler
  */
+@Service
 public class StudentImportDataHandler extends ESExcelImportDataHandler {
 
     public Map<String, String> getDataPropertyMapping() {
@@ -19,6 +21,7 @@ public class StudentImportDataHandler extends ESExcelImportDataHandler {
         dict.put("姓名", "name");
         dict.put("性别", "sex");
         dict.put("年龄", "age");
+        dict.put("学生id", "id");
         return dict;
     }
 }

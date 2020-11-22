@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
  *
  * @author chenxun 2020-11-17 13:43:29
  **/
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @ApiModel(value = "学生列表请求对象")

@@ -5,6 +5,7 @@ import com.wondernect.elements.common.response.BusinessData;
 import com.wondernect.elements.common.utils.ESObjectUtils;
 import com.wondernect.elements.common.utils.ESStringUtils;
 import com.wondernect.elements.easyoffice.excel.ESExcelImportVerifyHandler;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import java.util.Map;
  * Date: 2020-11-12 15:19
  * Description:
  */
+@Service
 public class StudentImportVerifyHandler extends ESExcelImportVerifyHandler {
 
     @Override

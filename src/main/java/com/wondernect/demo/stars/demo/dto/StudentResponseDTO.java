@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
  *
  * @author chenxun 2020-11-17 13:43:28
  **/
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
