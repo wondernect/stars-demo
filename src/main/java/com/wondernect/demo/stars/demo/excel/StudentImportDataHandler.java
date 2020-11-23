@@ -22,6 +22,7 @@ public class StudentImportDataHandler extends ESExcelImportDataHandler {
         dict.put("性别", "sex");
         dict.put("年龄", "age");
         dict.put("学生id", "id");
+        dict.put("创建时间", "createTime");
         return dict;
     }
 }

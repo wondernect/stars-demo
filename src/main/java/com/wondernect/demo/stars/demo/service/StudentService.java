@@ -3,7 +3,11 @@ package com.wondernect.demo.stars.demo.service;
 import com.wondernect.demo.stars.demo.dto.ListStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.StudentResponseDTO;
 import com.wondernect.demo.stars.demo.excel.*;
+import com.wondernect.demo.stars.demo.model.Student;
 import com.wondernect.elements.easyoffice.excel.*;
+import com.wondernect.elements.easyoffice.excel.handler.ESExcelIntegerItemHandler;
+import com.wondernect.elements.easyoffice.excel.handler.ESExcelStringItemHandler;
+import com.wondernect.elements.easyoffice.excel.handler.ESExcelTimestampItemHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,9 +74,10 @@ public class StudentService extends StudentAbstractService {
                 new ESExcelIntegerItemHandler("age", "年龄", 3)
         );
 
-        // excelItemHandlerList.add(
-        //         new ESExcelTimestampItemHandler("createTime", "创建时间", 0)
-        // );
+        // 导出时存在,导入时不可有
+        excelItemHandlerList.add(
+                new ESExcelTimestampItemHandler("createTime", "创建时间", 0)
+        );
 
         return excelItemHandlerList;
     }
@@ -81,5 +86,12 @@ public class StudentService extends StudentAbstractService {
     public void saveExcelEntityData(Map<String, Object> map, List<ESExcelItem> excelItemList) {
         StudentResponseDTO studentResponseDTO = ESExcelUtils.getImportObject(StudentResponseDTO.class, map, excelItemList);
         System.out.println(studentResponseDTO);
+        super.saveEntity(
+                new Student(
+                        studentResponseDTO.getName(),
+                        studentResponseDTO.getSex(),
+                        studentResponseDTO.getAge()
+                )
+        );
     }
 }

@@ -1,6 +1,6 @@
 package com.wondernect.demo.stars.demo.excel;
 
-import com.wondernect.elements.easyoffice.excel.ESExcelIDItemHandler;
+import com.wondernect.elements.easyoffice.excel.handler.ESExcelEnumItemHandler;
 
 import java.util.Map;
 
@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author chenxun 2020-11-17 13:43:51
  **/
-public class StudentResponseDTOSexHandler extends ESExcelIDItemHandler<Integer> {
+public class StudentResponseDTOSexHandler extends ESExcelEnumItemHandler<Integer> {
 
     public StudentResponseDTOSexHandler(String itemName, String itemTitle, int itemOrder, Map<Integer, String> dictionary) {
         super(itemName, itemTitle, itemOrder, dictionary);
