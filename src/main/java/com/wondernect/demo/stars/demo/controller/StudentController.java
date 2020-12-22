@@ -4,15 +4,17 @@ import com.wondernect.demo.stars.demo.dto.ListStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.PageStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.SaveStudentRequestDTO;
 import com.wondernect.demo.stars.demo.dto.StudentResponseDTO;
+import com.wondernect.demo.stars.demo.service.StudentExcelExportResponseService;
+import com.wondernect.demo.stars.demo.service.StudentExcelImportResponseService;
 import com.wondernect.demo.stars.demo.service.StudentService;
 import com.wondernect.elements.common.error.BusinessError;
 import com.wondernect.elements.common.response.BusinessData;
-import com.wondernect.elements.easyoffice.excel.ESExcelItem;
 import com.wondernect.elements.rdb.response.PageResponseData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +38,12 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private StudentExcelExportResponseService studentExcelExportResponseService;
+
+    @Autowired
+    private StudentExcelImportResponseService studentExcelImportResponseService;
 
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "/create")
@@ -87,12 +95,6 @@ public class StudentController {
         return new BusinessData<>(studentService.page(pageStudentRequestDTO));
     }
 
-    @ApiOperation(value = "获取excel的所有可用列名、类型、描述、get方法、set方法", httpMethod = "GET")
-    @GetMapping(value = "/excel_item_list")
-    public BusinessData<List<ESExcelItem>> excelItemList() {
-        return new BusinessData<>(studentService.excelItemList());
-    }
-
     @ApiOperation(value = "excel导出", httpMethod = "POST")
     @PostMapping(value = "/excel_data_export")
     public void excelDataExport(
@@ -101,31 +103,21 @@ public class StudentController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        studentService.excelDataExport(templateId, listStudentRequestDTO, request, response);
+        studentExcelExportResponseService.exportDataResponse(templateId, listStudentRequestDTO, request, response);
     }
 
-    @ApiOperation(value = "excel导入", httpMethod = "POST")
-    @PostMapping(value = "/excel_data_import")
-    public void excelDataImport(
+    @ApiOperation(value = "本地用户导入(请求响应)", httpMethod = "POST")
+    @PostMapping(value = "/response/import_data", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void importResponseData(
             @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            @ApiParam(required = true) @NotNull(message = "文件不能为空") @Validated @RequestPart(value = "file", required = false) MultipartFile file,
+            @ApiParam(required = true) @NotNull(message = "导入文件不能为空") @RequestPart(value = "file", required = false) MultipartFile file,
             HttpServletRequest request,
             HttpServletResponse response
     ) {
         try {
-            studentService.excelDataImport(templateId, file.getInputStream(), request, response);
+            studentExcelImportResponseService.importDataResponse(templateId, file.getInputStream(), request, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            BusinessData.error(e.getMessage(), response);
         }
-    }
-
-    @ApiOperation(value = "excel导入信息模板下载", httpMethod = "GET")
-    @GetMapping(value = "/excel_data_import_model")
-    public void excelDataImportModel(
-            @ApiParam(required = true) @NotBlank(message = "模板id不能为空") @RequestParam(value = "template_id", required = false) String templateId,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) {
-        studentService.excelDataImportModel(templateId, request, response);
     }
 }

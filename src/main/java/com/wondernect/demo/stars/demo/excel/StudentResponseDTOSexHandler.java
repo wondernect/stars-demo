@@ -2,16 +2,26 @@ package com.wondernect.demo.stars.demo.excel;
 
 import com.wondernect.elements.easyoffice.excel.handler.ESExcelEnumItemHandler;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 性别导入导出item handler
- *
- * @author chenxun 2020-11-17 13:43:51
- **/
+ * Copyright (C), 2017-2020, wondernect.com
+ * FileName: StudentResponseDTOSexHandler
+ * Author: chenxun
+ * Date: 2020/12/22 15:07
+ * Description:
+ */
 public class StudentResponseDTOSexHandler extends ESExcelEnumItemHandler<Integer> {
 
-    public StudentResponseDTOSexHandler(String itemName, String itemTitle, int itemOrder, Map<Integer, String> dictionary) {
-        super(itemName, itemTitle, itemOrder, dictionary);
+    private static final Map<Integer, String> gender = new HashMap<>();
+
+    static {
+        gender.put(1, "男");
+        gender.put(2, "女");
+    }
+
+    public StudentResponseDTOSexHandler(String itemName, String itemTitle, int itemOrder) {
+        super(itemName, itemTitle, itemOrder, gender);
     }
 }

@@ -1,6 +1,6 @@
 package com.wondernect.demo.stars.demo.excel;
 
-import com.wondernect.elements.easyoffice.excel.ESExcelImportDataHandler;
+import com.wondernect.elements.easyoffice.excel.handler.ESExcelImportDataHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -18,11 +18,12 @@ public class StudentImportDataHandler extends ESExcelImportDataHandler {
 
     public Map<String, String> getDataPropertyMapping() {
         Map<String, String> dict = new HashMap<>();
+        dict.put("学生id", "id");
         dict.put("姓名", "name");
         dict.put("性别", "sex");
         dict.put("年龄", "age");
-        dict.put("学生id", "id");
         dict.put("创建时间", "createTime");
+        dict.put("更新时间", "updateTime");
         return dict;
     }
 }
